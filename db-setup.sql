@@ -1,9 +1,11 @@
+Use lkkeeper;
+
 -- CREATE TABLE users (
 --     id VARCHAR(255) NOT NULL,
 --     username VARCHAR(20) NOT NULL,
 --     email VARCHAR(255) NOT NULL,
 --     hash VARCHAR(255) NOT NULL,
---     PRIMARY KEY (id),
+--     constraint PK_users PRIMARY KEY (id),
 --     UNIQUE KEY email (email)
 -- );
 
@@ -12,11 +14,11 @@
 --     name VARCHAR(20) NOT NULL,
 --     description VARCHAR(255) NOT NULL,
 --     userId VARCHAR(255),
---     INDEX userId (userId),
---     FOREIGN KEY (userId)
+--     INDEX idx_userId (userId),
+--     constraint FK_vaultsUid FOREIGN KEY (userId)
 --         REFERENCES users(id)
 --         ON DELETE CASCADE,  
---     PRIMARY KEY (id)
+--     constraint PK_vaults PRIMARY KEY (id)
 -- );
 
 -- CREATE TABLE keeps (
@@ -29,11 +31,11 @@
 --     views INT DEFAULT 0,
 --     shares INT DEFAULT 0,
 --     keeps INT DEFAULT 0,
---     INDEX userId (userId),
---     FOREIGN KEY (userId)
+--     INDEX idx_userId (userId),
+--     constraint FK_keepsUid FOREIGN KEY (userId)
 --         REFERENCES users(id)
 --         ON DELETE CASCADE,  
---     PRIMARY KEY (id)
+--     constraint PK_keeps PRIMARY KEY (id)
 -- );
 
 -- CREATE TABLE vaultkeeps (
@@ -42,25 +44,25 @@
 --     keepId int NOT NULL,
 --     userId VARCHAR(255) NOT NULL,
 
---     PRIMARY KEY (id),
---     INDEX (vaultId, keepId),
---     INDEX (userId),
+--     constraint PK_vaultkeeps PRIMARY KEY (id),
+--     INDEX idx_vid_kid (vaultId, keepId),
+--     INDEX idx_userid (userId),
 
---     FOREIGN KEY (userId)
+--     constraint FK_vaultkeepsUid FOREIGN KEY (userId)
 --         REFERENCES users(id)
 --         ON DELETE CASCADE,
 
---     FOREIGN KEY (vaultId)
+--     constraint FK_vaultkeepsVid FOREIGN KEY (vaultId)
 --         REFERENCES vaults(id)
 --         ON DELETE CASCADE,
 
---     FOREIGN KEY (keepId)
+--     constraint FK_vaultkeepsKid FOREIGN KEY (keepId)
 --         REFERENCES keeps(id)
 --         ON DELETE CASCADE
--- )
+-- );
 
 
 -- -- USE THIS LINE FOR GET KEEPS BY VAULTID
 -- SELECT * FROM vaultkeeps vk
 -- INNER JOIN keeps k ON k.id = vk.keepId 
--- WHERE (vaultId = @vaultId AND vk.userId = @userId) 
+-- WHERE (vk.vaultId = @vaultId AND vk.userId = @userId) 

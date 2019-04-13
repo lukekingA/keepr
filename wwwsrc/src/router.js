@@ -4,12 +4,21 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 // @ts-ignore
 import Login from './views/Login.vue'
+import Store from './store'
+
+function guard(to, from, next) {
+  if (Store.state.user) {
+
+    next(); // allow to enter route
+  } else {
+    next('/'); // go to '/login';
+  }
+}
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
       component: Home
