@@ -4,7 +4,7 @@ using keepr.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers {
-  [Route ("keep")]
+  [Route ("vault")]
   [ApiController]
   public class VaultController : ControllerBase {
     private readonly VaultsRepository _vr;
