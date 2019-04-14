@@ -4,7 +4,7 @@ using keepr.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers {
-  [Route ("keep")]
+  [Route ("api/[controller]")]
   [ApiController]
   public class KeepsController : ControllerBase {
     private readonly KeepsRepository _kr;
@@ -40,9 +40,9 @@ namespace keepr.Controllers {
       return BadRequest ("Couldn't make new keep");
     }
 
-    [HttpPut ("{id}")]
-    public ActionResult<Keep> Put (int id, [FromBody] Keep newKeep) {
-      Keep result = _kr.EditKeep (id, newKeep);
+    [HttpPut]
+    public ActionResult<Keep> Put ([FromBody] Keep newKeep) {
+      Keep result = _kr.EditKeep (newKeep);
       if (result != null) {
         return result;
       }

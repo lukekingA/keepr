@@ -24,14 +24,14 @@ namespace keepr.Repositories {
 
     public Vault NewVault (Vault newVault) {
 
-      var madeVault = _db.ExecuteScalar ("INSERT INTO vaults (name,description,userId,img,isPravate values(name = @Name,description = @Description, userId = @UserId, isPrivate = @IsPrivate))", newVault);
-      return madeVault != null ? newVault : null;
+      var madeVault = _db.Execute ("INSERT INTO vaults (name,description,userId) values(@Name, @Description, @UserId)", newVault);
+      return madeVault > 0 ? newVault : null;
     }
 
     public Vault EditVault (Vault vault) {
-      var editVault = _db.ExecuteScalar ("UPDATE vaults SET id = @ID, name = @Name, description = @Description, userId = @UserId WHERE id = @id", vault);
+      var editVault = _db.Execute ("UPDATE vaults SET  id = @Id, name = @Name, description = @Description, userId = @UserId WHERE id = @Id", vault);
 
-      return editVault != null ? vault : null;
+      return editVault > 0 ? vault : null;
     }
 
     public bool DeleteVault (int id) {

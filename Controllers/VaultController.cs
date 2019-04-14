@@ -4,7 +4,7 @@ using keepr.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers {
-  [Route ("vault")]
+  [Route ("api/[controller]")]
   [ApiController]
   public class VaultController : ControllerBase {
     private readonly VaultsRepository _vr;
@@ -40,7 +40,7 @@ namespace keepr.Controllers {
       return BadRequest ("Couldn't make new vault");
     }
 
-    [HttpPut ("{id}")]
+    [HttpPut]
     public ActionResult<Vault> Put ([FromBody] Vault newVault) {
       Vault result = _vr.EditVault (newVault);
       if (result != null) {
@@ -53,9 +53,9 @@ namespace keepr.Controllers {
     public ActionResult Delete (int id) {
       bool result = _vr.DeleteVault (id);
       if (result) {
-        return Ok ("Deleted keep");
+        return Ok ("Deleted vault");
       }
-      return BadRequest ("Could not find that keep to delete");
+      return BadRequest ("Could not find that vault to delete");
     }
   }
 }

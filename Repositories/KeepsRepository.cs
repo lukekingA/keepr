@@ -32,15 +32,15 @@ namespace keepr.Repositories {
     }
 
     public Keep NewKeep (Keep newKeep) {
-      var madeKeep = _db.ExecuteScalar ("INSERT INTO keeps (name,description,userId,img,isPravate values(name = @Name,description = @Description, userId = @UserId, isPrivate = @IsPrivate))", newKeep);
+      var madeKeep = _db.Execute ("INSERT INTO keeps (name,description,userId,img,isPravate values(@Name, @Description, @UserId, @IsPrivate))", newKeep);
 
-      return madeKeep != null ? newKeep : null;
+      return madeKeep > 0 ? newKeep : null;
     }
 
-    public Keep EditKeep (int id, Keep keep) {
-      var editKeep = _db.ExecuteScalar ("UPDATE keeps SET id = @Id name = @Name,description = @Description, userId = @UserId, img = @Img, isPrivate = @IsPrivate, views = @Views, shares = @Shares, keeps = @Keeps WHERE id = @Id", keep);
+    public Keep EditKeep (Keep keep) {
+      var editKeep = _db.Execute ("UPDATE keeps SET id = @Id name = @Name,description = @Description, userId = @UserId, img = @Img, isPrivate = @IsPrivate, views = @Views, shares = @Shares, keeps = @Keeps WHERE id = @Id", keep);
 
-      return editKeep != null ? keep : null;
+      return editKeep > 0 ? keep : null;
     }
 
     public bool DeleteKeep (int id) {

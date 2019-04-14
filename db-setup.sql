@@ -61,8 +61,20 @@ Use lkkeeper;
 --         ON DELETE CASCADE
 -- );
 
+-- create table test(
+--   id int not null,
+--   value VARCHAR(255)not null
+-- );
+
+-- drop table test;
+
 
 -- -- USE THIS LINE FOR GET KEEPS BY VAULTID
 -- SELECT * FROM vaultkeeps vk
 -- INNER JOIN keeps k ON k.id = vk.keepId 
 -- WHERE (vk.vaultId = @vaultId AND vk.userId = @userId) 
+
+-- INSERT INTO vaults (name,description,userId) 
+-- values ("test vault","this is the first vault to be created","2e960f7f-923c-4773-b093-301231d97c84");
+
+-- select * from users;

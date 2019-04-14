@@ -13,7 +13,7 @@ namespace keepr.Repositories {
       _db = db;
     }
 
-    public IEnumerable<Keep> GetVKbyVltandUsr (int vaultId, string userId) {
+    public IEnumerable<Keep> GetKeepsbyVltandUsr (int vaultId, string userId) {
       try {
         return _db.Query<Keep> (@"SELECT * FROM vaultkeeps AS vk 
         INNER JOIN keeps AS k ON vk.keepId = k.id
