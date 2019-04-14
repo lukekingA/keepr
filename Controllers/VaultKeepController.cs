@@ -14,7 +14,7 @@ namespace keepr.Controllers {
       _vkr = vkr;
     }
 
-    [HttpGet]
+    [HttpGet ("vault/{vaultId}/usr/{userId}")]
     public ActionResult<IEnumerable<Keep>> GetUserVaultKeeps (int vaultId, string userId) {
       IEnumerable<Keep> usrVaultKeeps = _vkr.GetKeepsbyVltandUsr (vaultId, userId);
       if (usrVaultKeeps != null) {
@@ -31,5 +31,10 @@ namespace keepr.Controllers {
       }
       return BadRequest ("Failed to make new vaultkeep");
     }
+
+    // [HttpDelete ("{id}")]
+    // public ActionResult Delete (int id){
+    //   bool deleted = _vkr.DeleteVault()
+    // }
   }
 }

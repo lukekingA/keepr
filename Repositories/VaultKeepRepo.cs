@@ -26,14 +26,11 @@ namespace keepr.Repositories {
 
     //Used when new keep is made or coppied by other user. new vk is made with the current user and the vault of their choice.
     public VaultKeep NewVaultKeep (VaultKeep vk) {
-      var newVK = _db.ExecuteScalar<VaultKeep> (@"
+      var newVK = _db.Execute (@"
      INSERT INTO vaultkeeps (vaultId,keepId,userId) 
-     VALUES (vaultId = @VaultId, keepId = @KeepId, userId = @UserId)",
+     VALUES (@VaultId, @KeepId, @UserId)",
         vk);
-      if (newVK != null) {
-        return vk;
-      }
-      return null;
+      return newVK > 0 ? vk : null;
     }
   }
 }
