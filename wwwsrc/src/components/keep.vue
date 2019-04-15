@@ -3,7 +3,7 @@
     <div class="card">
       <img class="card-img-top" :src="keep.img" alt="Card image cap">
       <div class="card-body">
-        <h4 class="card-title">{{keep.name}}}</h4>
+        <h4 class="card-title">{{keep.name}}</h4>
         <p class="card-text">
           {{keep.description}}
         </p>

@@ -2,9 +2,10 @@
 
   <div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
       Login
-    </button>
+    </button> -->
+    <button class="btn btn-sm bg-dark text-light" @click="toggleLoginModal">Login</button>
 
     <!-- Modal -->
     <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel"
@@ -19,10 +20,10 @@
           </div>
           <div class="modal-body">
             <div class="login">
-              <form v-if="loginForm" @submit.prevent="loginUser">
-                <input type="email" v-model="creds.email" placeholder="email">
-                <input type="password" v-model="creds.password" placeholder="password">
-                <button type="submit" @click="dismissLoginModal">Login</button>
+              <form v-if="loginForm" @submit.prevent="loginUser" class="d-flex flex-column ">
+                <input class="form-control mb-1" type="email" v-model="creds.email" placeholder="email">
+                <input class="form-control mb-1" type="password" v-model="creds.password" placeholder="password">
+                <button class="btn btn-sm bg-dark text-light" type="submit" @click="toggleLoginModal">Login</button>
               </form>
               <form v-else @submit.prevent="register">
                 <input type="text" v-model="newUser.username" placeholder="name">
@@ -63,7 +64,8 @@
           email: "",
           password: "",
           username: ""
-        }
+        },
+        showModal: false,
       };
     },
     methods: {
@@ -73,8 +75,13 @@
       loginUser() {
         this.$store.dispatch("login", this.creds);
       },
-      dismissLoginModal() {
-        $(".modal").modal("hide")
+      toggleLoginModal() {
+        let dict = {
+          false: "hide",
+          true: "show"
+        }
+        $(".modal").modal(`${dict[this.showModal]}`)
+        this.showModal = !this.showModal
       }
     }
   };

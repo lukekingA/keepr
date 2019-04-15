@@ -1,14 +1,20 @@
 <template>
-  <div id="app">
-    <router-view />
+  <div id="app" class="container-fluid">
+
+    <div class="row">
+      <div class="col">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Cute+Font');
+  @import url('https://fonts.googleapis.com/css?family=Cute+Font|Varela+Round');
+
 
   #app {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    font-family: 'Varela Round', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;

@@ -1,8 +1,8 @@
 <template>
-  <div class="header">
+  <div class="header bg-secondary">
     <div class="d-flex justify-content-around">
       <div class="d-flex align-items-baseline">
-        <h1 class="mr-2 header-font font-weight-bold">Keepr</h1>
+        <h1 class="mr-3 header-font font-weight-bold">Keepr</h1>
         <h6><small class="font-weight-bold">ALL YOUR FAVORITE CONTENT IN ONE SPOT</small></h6>
       </div>
       <button class="btn btn-sm my-2 bg-dark text-light" @click="logout">Logout</button>

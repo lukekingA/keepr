@@ -11,7 +11,7 @@ function guard(to, from, next) {
 
     next(); // allow to enter route
   } else {
-    next('/'); // go to '/login';
+    next('/login'); // go to '/login';
   }
 }
 
@@ -20,6 +20,7 @@ Vue.use(Router)
 export default new Router({
   routes: [{
       path: '/',
+      beforeEnter: guard,
       name: 'home',
       component: Home
     },
