@@ -22,14 +22,26 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
-    keeps: [],
+    lastUrl: '',
+    pubKeeps: [],
+    userKeeps: [],
+    vaults: [],
   },
   mutations: {
     setUser(state, user) {
       state.user = user
     },
-    setKeeps(state, data) {
-      state.keeps = data
+    setLastUrl(state, url) {
+      state.lastUrl = url
+    },
+    setPublicKeeps(state, data) {
+      state.pubKeeps = data
+    },
+    setUserKeeps(state, data) {
+      state.userKeeps = data
+    },
+    setUserVaults(state, data) {
+      state.vaults = data
     }
   },
   actions: {
@@ -52,14 +64,21 @@ export default new Vuex.Store({
     },
     authenticate({
       commit,
-      dispatch
+      state
     }) {
       auth.get('authenticate')
+
         .then(res => {
           commit('setUser', res.data)
-          router.push({
-            name: 'home'
-          })
+          if (state.lastUrl) {
+            router.push({
+              name: state.lastUrl.name
+            })
+          } else {
+            router.push({
+              name: 'home'
+            })
+          }
         })
         .catch(e => {
           console.log('not authenticated')
@@ -87,9 +106,9 @@ export default new Vuex.Store({
       auth.delete('logout').then(res => {
           console.log(res);
           commit('setUser', {})
-          router.push({
-            name: 'login'
-          })
+          // router.push({
+          //   name: 'login'
+          // })
         })
         .catch(e => {
           console.log('Logout Failed')
@@ -97,13 +116,54 @@ export default new Vuex.Store({
     },
     //#endregion
 
+    setLastUrl({
+      commit
+    }, url) {
+      commit('setLastUrl', url)
+    },
     //#region Keeps
     getPublicKeeps({
       commit,
       dispatch
     }) {
       api.get('keeps').then(res => {
-        commit('setKeeps', res.data)
+        commit('setPublicKeeps', res.data)
+      })
+    },
+    getUserKeeps({
+      commit,
+      dispatch
+    }) {
+      auth.get('authenticate').then(res => {
+        api.get('keeps/' + res.data.id).then(responce => {
+          commit('setUserKeeps', responce.data)
+        })
+
+      })
+    },
+    makeKeep({
+      commit,
+      dispatch
+    }, data) {
+      api.post('keeps', data.curKeep).then(res => {
+        dispatch('getPublicKeeps')
+        dispatch('getUserKeeps')
+      })
+    },
+
+    //#endregion
+
+    //#region Vaults
+    getUserVaults({
+      commit,
+      dispatch,
+      state
+    }) {
+      auth.get('authenticate').then(res => {
+        api.get('vault/' + res.data.id).then(responce => {
+          commit('setUserVaults', responce.data)
+        })
+
       })
     }
 

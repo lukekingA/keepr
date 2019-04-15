@@ -31,10 +31,15 @@ namespace keepr.Repositories {
       }
     }
 
-    public Keep NewKeep (Keep newKeep) {
-      var madeKeep = _db.Execute ("INSERT INTO keeps (name,description,userId,img,isPrivate,contentUrl,tags) values(@Name, @Description, @UserId, @Img, @IsPrivate,@ContentUrl,@Tags)", newKeep);
+    public int NewKeep (Keep newKeep) {
+      int outVal = -1;
+      var madeKeep = _db.ExecuteScalar ("INSERT INTO keeps (name,description,userId,img,isPrivate,contentUrl,tags) values(@Name, @Description, @UserId, @Img, @IsPrivate,@ContentUrl,@Tags); SELECT LAST_INSERT_ID() ", newKeep);
 
-      return madeKeep > 0 ? newKeep : null;
+      if (madeKeep != null) {
+        int.TryParse (madeKeep.ToString (), out outVal);
+      };
+
+      return outVal;
     }
 
     public Keep EditKeep (Keep keep) {

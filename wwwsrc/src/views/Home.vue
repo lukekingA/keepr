@@ -1,20 +1,30 @@
 <template>
   <div class="home">
-    <main-header></main-header>
-    <div class="row">
-      <div v-for="keep in keeps" class="col col-sm-4">
-        <keep :keep="keep"></keep>
-      </div>
+    <top-header></top-header>
+    <div class="d-flex justify-content-around mb-2">
+      <button v-if="formselect" @click="formselect = !formselect" class="btn bg-dark text-light">Keep</button>
+      <button v-else @click="formselect = !formselect" class="btn bg-dark text-light">Vault</button>
     </div>
+    <keep-form v-if="formselect"></keep-form>
+    <vault-form v-else></vault-form>
+
+  </div>
   </div>
 </template>
 
 <script>
-  import MainHeader from '@/components/mainHeader.vue'
-  import Keep from '@/components/keep.vue'
+  import TopHeader from '@/components/topHeader.vue'
+  import KeepForm from '@/components/keepForm.vue'
+  import VaultForm from '@/components/vaultForm.vue'
 
   export default {
     name: "home",
+    data() {
+      return {
+        formselect: true,
+
+      }
+    },
     beforeCreate() {
       this.$store.dispatch("authenticate");
     },
@@ -25,21 +35,19 @@
       //     name: "login"
       //   });
       // }
-      this.$store.dispatch('getPublicKeeps')
+      this.$store.dispatch('getUserKeeps')
+      this.$store.dispatch('getUserVaults')
     },
     computed: {
-      keeps() {
-        return this.$store.state.keeps
-      }
+
     },
     methods: {
-      logout() {
-        this.$store.dispatch("logout")
-      }
+
     },
     components: {
-      MainHeader,
-      Keep
+      TopHeader,
+      KeepForm,
+      VaultForm
     }
   };
 </script>

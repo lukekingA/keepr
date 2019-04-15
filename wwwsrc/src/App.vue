@@ -2,9 +2,9 @@
   <div id="app" class="container-fluid">
 
     <div class="row">
-      <div class="col">
-        <router-view />
-      </div>
+
+      <router-view class="col" />
+
     </div>
   </div>
 </template>

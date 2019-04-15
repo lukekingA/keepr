@@ -32,10 +32,10 @@ namespace keepr.Controllers {
     }
 
     [HttpPost]
-    public ActionResult<Keep> Post ([FromBody] Keep newKeep) {
-      Keep result = _kr.NewKeep (newKeep);
-      if (result != null) {
-        return result;
+    public ActionResult<int> Post ([FromBody] Keep newKeep) {
+      int result = _kr.NewKeep (newKeep);
+      if (result > 0) {
+        return Ok (result);
       }
       return BadRequest ("Couldn't make new keep");
     }
