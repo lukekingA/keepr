@@ -25,6 +25,8 @@ namespace keepr.Models {
     public int Shares { get; set; }
 
     public int Keeps { get; set; }
+    public string ContentUrl { get; set; }
+    public string Tags { get; set; }
 
   }
 }

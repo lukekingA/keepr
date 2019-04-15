@@ -38,6 +38,9 @@ Use lkkeeper;
 --     constraint PK_keeps PRIMARY KEY (id)
 -- );
 
+-- ALTER TABLE keeps ADD contentUrl VARCHAR(255), ADD tags VARCHAR(255);
+
+
 -- CREATE TABLE vaultkeeps (
 --     id int NOT NULL AUTO_INCREMENT,
 --     vaultId int NOT NULL,

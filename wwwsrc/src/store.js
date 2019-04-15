@@ -29,35 +29,61 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    register({ commit, dispatch }, newUser) {
+    register({
+      commit,
+      dispatch
+    }, newUser) {
       auth.post('register', newUser)
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          router.push({
+            name: 'home'
+          })
         })
         .catch(e => {
           console.log('[registration failed] :', e)
         })
     },
-    authenticate({ commit, dispatch }) {
+    authenticate({
+      commit,
+      dispatch
+    }) {
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          router.push({
+            name: 'home'
+          })
         })
         .catch(e => {
           console.log('not authenticated')
         })
     },
-    login({ commit, dispatch }, creds) {
+    login({
+      commit,
+      dispatch
+    }, creds) {
       auth.post('login', creds)
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          router.push({
+            name: 'home'
+          })
         })
         .catch(e => {
           console.log('Login Failed')
         })
+    },
+    logout({
+      commit,
+      dispatch
+    }) {
+      auth.delete('logout').then(res => {
+        console.log(res);
+        router.push({
+          name: 'login'
+        })
+      })
     }
   }
 })
