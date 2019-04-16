@@ -53,13 +53,10 @@
         vaultPick: {},
       }
     },
-    mounted() {
-
-    },
+    props: ['vaults'],
+    mounted() {},
     computed: {
-      vaults() {
-        return this.$store.state.vaults
-      }
+
     },
     methods: {
       makeKeep() {

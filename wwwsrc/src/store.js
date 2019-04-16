@@ -148,6 +148,11 @@ export default new Vuex.Store({
       api.post('keeps', data.curKeep).then(res => {
         dispatch('getPublicKeeps')
         dispatch('getUserKeeps')
+        let vkData = {
+          vault: data.vault,
+          keepId: res.data
+        }
+        dispatch('makeVaultKeep')
       })
     },
 
@@ -165,6 +170,12 @@ export default new Vuex.Store({
         })
 
       })
+    },
+    makeVaultKeep({
+      commit,
+      dispatch
+    }, data) {
+
     }
 
     //#endregion
