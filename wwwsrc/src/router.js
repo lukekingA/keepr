@@ -19,7 +19,8 @@ function guard(to, from, next) {
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
+
   routes: [{
       path: '/',
       name: 'front',
@@ -38,3 +39,15 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log(from)
+  if (to.name.toLowerCase() == 'login' || null) {
+    next()
+  } else {
+    Store.dispatch('setLastUrl', from.name)
+    next()
+  }
+})
+
+export default router

@@ -6,7 +6,7 @@
           <input type="text" class="mb-1 form-control pl-1" placeholder="name" v-model="curKeep.name">
           <input type="text" class="mb-1 form-control pl-1" placeholder="description" v-model="curKeep.description">
 
-          <button @click="makeKeep" class="btn btn-sm bg-dark text-light">Make Vault</button>
+          <button @click="makeVault" class="btn btn-sm bg-dark text-light">Make Vault</button>
         </form>
       </div>
     </div>
@@ -23,17 +23,18 @@
         curKeep: {
           name: '',
           description: '',
-          img: '',
-          tags: '',
-          contentUrl: '',
-          isPrivate: true
         }
       }
     },
     computed: {},
     methods: {
-      makeKeep() {
-
+      makeVault() {
+        let data = this.curKeep
+        this.$store.dispatch('makeVault', data)
+        this.curKeep = {
+          name: '',
+          description: '',
+        }
       }
     },
     components: {}

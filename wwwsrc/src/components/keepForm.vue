@@ -21,7 +21,7 @@
               Vaults
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li v-for="vault in vaults" class="pl-1 border-top" @click="console.log(vault)">{{vault.name}}</li>
+              <li v-for="vault in vaults" class="pl-1 border-top" @click="setVault(vault)">{{vault.name}}</li>
             </ul>
           </div>
           <button @click="makeKeep" class="btn btn-sm bg-dark text-light">Make Keep</button>
@@ -62,7 +62,7 @@
       makeKeep() {
         let data = {
           keep: this.curKeep,
-          vault: this.vaultPick
+          vaultId: this.vaultPick.id
         }
         data.userId = this.$store.state.user.id
         this.$store.dispatch('makeKeep', data)
@@ -75,8 +75,9 @@
           isPrivate: true
         }
       },
-      handleDrop(data) {
-        console.log(data)
+      setVault(vault) {
+        debugger
+        this.vaultPick = vault
       }
     },
     components: {

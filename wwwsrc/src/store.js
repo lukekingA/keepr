@@ -26,6 +26,7 @@ export default new Vuex.Store({
     pubKeeps: [],
     userKeeps: [],
     vaults: [],
+    curKeepsByVault: [],
   },
   mutations: {
     setUser(state, user) {
@@ -42,7 +43,10 @@ export default new Vuex.Store({
     },
     setUserVaults(state, data) {
       state.vaults = data
-    }
+    },
+    setCurKeepsByVault(state, data) {
+      state.curKeepsByVault = data
+    },
   },
   actions: {
 
@@ -67,16 +71,11 @@ export default new Vuex.Store({
       state
     }) {
       auth.get('authenticate')
-
         .then(res => {
           commit('setUser', res.data)
-          if (state.lastUrl) {
+          if (!state.user.id) {
             router.push({
-              name: state.lastUrl.name
-            })
-          } else {
-            router.push({
-              name: 'home'
+              name: 'login'
             })
           }
         })
@@ -86,14 +85,21 @@ export default new Vuex.Store({
     },
     login({
       commit,
-      dispatch
+      dispatch,
+      state
     }, creds) {
       auth.post('login', creds)
         .then(res => {
           commit('setUser', res.data)
-          router.push({
-            name: 'home'
-          })
+          if (state.lastUrl) {
+            router.push({
+              name: state.lastUrl
+            })
+          } else {
+            router.push({
+              name: 'front'
+            })
+          }
         })
         .catch(e => {
           console.log('Login Failed')
@@ -106,9 +112,9 @@ export default new Vuex.Store({
       auth.delete('logout').then(res => {
           console.log(res);
           commit('setUser', {})
-          // router.push({
-          //   name: 'login'
-          // })
+          router.push({
+            name: 'front'
+          })
         })
         .catch(e => {
           console.log('Logout Failed')
@@ -128,6 +134,8 @@ export default new Vuex.Store({
     }) {
       api.get('keeps').then(res => {
         commit('setPublicKeeps', res.data)
+      }).catch(err => {
+        console.log('getPublicKeeps error:' + err)
       })
     },
     getUserKeeps({
@@ -137,6 +145,8 @@ export default new Vuex.Store({
       auth.get('authenticate').then(res => {
         api.get('keeps/' + res.data.id).then(responce => {
           commit('setUserKeeps', responce.data)
+        }).catch(err => {
+          console.log('getUserKeeps error:' + err)
         })
 
       })
@@ -149,10 +159,12 @@ export default new Vuex.Store({
         dispatch('getPublicKeeps')
         dispatch('getUserKeeps')
         let vkData = {
-          vault: data.vault,
+          vaultId: data.vaultId,
           keepId: res.data
         }
         dispatch('makeVaultKeep', vkData)
+      }).catch(err => {
+        console.log('makeKeep error:' + err)
       })
     },
 
@@ -167,8 +179,21 @@ export default new Vuex.Store({
       auth.get('authenticate').then(res => {
         api.get('vault/' + res.data.id).then(responce => {
           commit('setUserVaults', responce.data)
+        }).catch(err => {
+          console.log('getUserVaults error:' + err)
         })
-
+      })
+    },
+    makeVault({
+      commit,
+      dispatch,
+      state
+    }, data) {
+      data.userId = state.user.id
+      api.post('vault', data).then(res => {
+        if (res.data >= 0) {
+          dispatch('getUserVaults')
+        }
       })
     },
 
@@ -179,14 +204,26 @@ export default new Vuex.Store({
       commit,
       dispatch
     }, data) {
-      api.post('')
+      auth.get('authenticate').then(res => {
+        data.userId = res.data.id
+        api.post('vaultkeep', data).then(response => {
+          if (response.data >= 0) {
+            console.log(response)
+          }
+        }).catch(err => {
+          console.log('makeVaultKeep error:' + err)
+        })
+
+      })
     },
     getKeepsByVault({
       commit,
       dispatch
     }, data) {
       api.get('vaultkeep/vault/' + data.vaultId + '/usr/' + data.user).then(res => {
-
+        commit('setCurKeepsByVault', res.data)
+      }).catch(err => {
+        console.log('getKeepsByVault error:' + err)
       })
     }
   }

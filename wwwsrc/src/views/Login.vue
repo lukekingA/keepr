@@ -5,7 +5,7 @@
     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
       Login
     </button> -->
-    <button class="btn btn-sm bg-dark text-light" @click="toggleLoginModal">Login</button>
+    <!-- <button class="btn btn-sm bg-dark text-light" @click="toggleLoginModal">Login</button> -->
 
     <!-- Modal -->
     <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel"
@@ -29,7 +29,7 @@
                 <input type="text" v-model="newUser.username" placeholder="name">
                 <input type="email" v-model="newUser.email" placeholder="email">
                 <input type="password" v-model="newUser.password" placeholder="password">
-                <button type="submit">Create Account</button>
+                <button type="submit" @click="toggleLoginModal">Create Account</button>
               </form>
               <div @click="loginForm = !loginForm">
                 <p v-if="loginForm">No account Click to Register</p>
@@ -52,6 +52,7 @@
     mounted() {
       //checks for valid session
       this.$store.dispatch("authenticate");
+      $(".modal").modal('show')
     },
     data() {
       return {
