@@ -13,9 +13,12 @@
         <div class="modal-content">
           <div class="row">
             <div class="col col-sm-6" v-for="keep in curKeeps">
-              <keep :keep="keep"></keep>
+              <keep :keep="keep" :user="user" :currentRouteName="currentRouteName"></keep>
             </div>
           </div>
+          <button @click="deleteVault(vault)" data-dismiss="modal"
+            v-if="currentRouteName == 'home' && usrIsUsr && vault.name.toLowerCase() != 'general'"
+            class="bg-dark text-light btn btn-sm m-1">Delete Vault</button>
         </div>
       </div>
     </div>
@@ -32,13 +35,16 @@
         modalOpen: false
       }
     },
-    props: ['vault'],
+    props: ['vault', 'user', 'currentRouteName'],
     mounted() {
 
     },
     computed: {
       curKeeps() {
         return this.$store.state.curKeepsByVault
+      },
+      usrIsUsr() {
+        return this.vault.userId == this.user.id
       }
     },
     methods: {
@@ -49,6 +55,9 @@
         }
         this.$store.dispatch('getKeepsByVault', data)
         this.modalOpen = true
+      },
+      deleteVault(vault) {
+        this.$store.dispatch('deleteVault', vault)
       }
     },
     components: {

@@ -9,13 +9,13 @@
     <vault-form v-else></vault-form>
     <div v-if=" formselect" class="row mt-3">
       <div v-for="keep in userKeeps" class="col col-sm-4">
-        <keep :keep="keep"></keep>
+        <keep :keep="keep" :user="user" :currentRouteName="currentRouteName" :userVaults="userVaults"></keep>
 
       </div>
     </div>
     <div v-else class="row mt-3">
       <div v-for="vault in userVaults" class="col col-sm-4">
-        <vault :vault="vault"></vault>
+        <vault :vault="vault" :user="user" :currentRouteName="currentRouteName"></vault>
       </div>
     </div>
 
@@ -42,12 +42,6 @@
       this.$store.dispatch("authenticate");
     },
     mounted() {
-      //blocks users not logged in
-      // if (!this.$store.state.user.id) {
-      //   this.$router.push({
-      //     name: "login"
-      //   });
-      // }
       this.$store.dispatch('getUserKeeps')
       this.$store.dispatch('getUserVaults')
     },
@@ -57,7 +51,14 @@
       },
       userKeeps() {
         return this.$store.state.userKeeps
-      }
+      },
+      user() {
+        return this.$store.state.user
+      },
+      currentRouteName() {
+        return this.$route.name
+      },
+
     },
     methods: {
 

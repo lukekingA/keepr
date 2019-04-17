@@ -3,7 +3,7 @@
     <top-header></top-header>
     <div class="row mt-3">
       <div v-for="keep in pubKeeps" class="col col-md-4">
-        <keep :keep="keep"></keep>
+        <keep :keep="keep" :user="user" :currentRouteName="currentRouteName" :userVaults="userVaults"></keep>
       </div>
     </div>
 
@@ -27,7 +27,16 @@
     computed: {
       pubKeeps() {
         return this.$store.state.pubKeeps
-      }
+      },
+      userVaults() {
+        return this.$store.state.vaults
+      },
+      user() {
+        return this.$store.state.user
+      },
+      currentRouteName() {
+        return this.$route.name
+      },
     },
     methods: {},
     components: {

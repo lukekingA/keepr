@@ -38,7 +38,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Vault is required</p>
+            <h3>Vault is required</h3>
           </div>
         </div>
       </div>
@@ -72,7 +72,9 @@
     props: ['vaults'],
     mounted() {},
     computed: {
-
+      generalVault() {
+        vaults.filter(v => v.name.toLowerCase() == 'general')
+      }
     },
     methods: {
       makeKeep() {
@@ -82,7 +84,7 @@
         }
         let data = {
           keep: this.curKeep,
-          vaultId: this.vaultPick.id
+          vaultId: this.vaultPick.id || this.generalVault.id
         }
         data.userId = this.$store.state.user.id
         this.$store.dispatch('makeKeep', data)

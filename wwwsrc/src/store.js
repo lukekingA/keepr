@@ -60,7 +60,7 @@ export default new Vuex.Store({
           commit('setUser', res.data)
           let vaultData = {
             name: 'General',
-            description: '',
+            description: 'uncatagorized keeps go here',
             userId: res.data.id
           }
           dispatch('makeVault', vaultData)
@@ -175,6 +175,14 @@ export default new Vuex.Store({
         console.log('makeKeep error:' + err)
       })
     },
+    editKeep({
+      commit,
+      dispatch
+    }, keep) {
+      api.put('keeps', keep).then(() => {
+        dispatch('getUserKeeps')
+      })
+    },
     deleteKeep({
       commit,
       dispatch
@@ -217,6 +225,23 @@ export default new Vuex.Store({
         }
       })
     },
+    deleteVault({
+      commit,
+      dispatch
+    }, vault) {
+      if (vault.name.toLowerCase() == "general") {
+        console.log('Cannot delete General vault')
+        return
+      }
+      api.delete('vault/' + vault.id).then(res => {
+        if (res.status != 200) {
+          console.log('Problem with vault delete')
+        }
+        dispatch('getUserVaults')
+      }).catch(err => {
+        console.log('deleteVault error:' + err)
+      })
+    },
 
 
     //#endregion
@@ -246,6 +271,6 @@ export default new Vuex.Store({
       }).catch(err => {
         console.log('getKeepsByVault error:' + err)
       })
-    }
+    },
   }
 })
