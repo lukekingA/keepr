@@ -2,7 +2,7 @@
   <div class="front">
     <top-header></top-header>
     <div class="row mt-3">
-      <div v-for="keep in pubKeeps" class="col col-sm-4">
+      <div v-for="keep in pubKeeps" class="col col-md-4">
         <keep :keep="keep"></keep>
       </div>
     </div>

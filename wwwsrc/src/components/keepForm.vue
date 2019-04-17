@@ -28,6 +28,21 @@
         </form>
       </div>
     </div>
+    <div class="modal fade errorModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Vault is required</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -38,6 +53,7 @@
     Drag,
     Drop
   } from 'vue-drag-drop'
+  import $ from 'jquery'
   export default {
     name: 'keep-form',
     data() {
@@ -60,6 +76,10 @@
     },
     methods: {
       makeKeep() {
+        if (!this.vaultPick.id) {
+          $('.errorModal').modal('show')
+          return
+        }
         let data = {
           keep: this.curKeep,
           vaultId: this.vaultPick.id

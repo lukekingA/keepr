@@ -1,16 +1,27 @@
 <template>
   <div @click="showModal(keep.id)" class="keep" data-toggle="modal" :data-target="'#'+keep.id">
-    <div class="card m-1">
-      <img class="card-img-top" :src="keep.img" alt="Card image cap">
+    <div class="card m-1 p-1 shadow pointer">
+      <img v-if="keep.img" class="card-img-top rounded shadow-sm" :src="keep.img" alt="Card image cap">
       <div class="card-body">
         <h4 class="card-title">{{keep.name}}</h4>
         <a v-if="keep.contentUrl" :href="keep.contentUrl">article</a>
-        <button @click="viewKeep(keep)" class="btn btn-sm bg-dark text-light mx-1">View</button>
-        <span>{{keep.views}}</span>
-        <button @click="keepKeep(keep)" class="btn btn-sm bg-dark text-light mx-1">Keep</button>
-        <span>{{keep.keeps}}</span>
-        <button @click="shareKeep(keep)" class="btn btn-sm bg-dark text-light mx-1">Share</button>
-        <span>{{keep.shares}}</span>
+        <div class="d-flex justify-content-between">
+          <div class="w-100 d-flex ">
+            <div class="w-50 d-flex align-self-left align-items-baseline">
+              <button @click="viewKeep(keep)" class="btn btn-sm bg-dark text-light mx-1">View</button>
+              <span>{{keep.views}}</span>
+            </div>
+            <div class="d-flex align-items-baseline">
+              <button @click="shareKeep(keep)" class="btn btn-sm bg-dark text-light mx-1">Share</button>
+              <span>{{keep.shares}}</span>
+            </div>
+          </div>
+          <div v-show="user.id" class="d-flex align-items-baseline">
+            <button @click="keepKeep(keep)" class="btn btn-sm bg-dark text-light mx-1">Keep</button>
+            <span>{{keep.keeps}}</span>
+          </div>
+        </div>
+        <!-- <button v-if="currentRouteName == 'home'" class="bg-dark w-100 text-light btn btn-sm mt-1">Delete</button> -->
       </div>
     </div>
 
@@ -27,13 +38,13 @@
             </button>
           </div>
           <div class="modal-body">
-            <img class="img-fluid" :src="keep.img" alt="">
+            <img v-if="keep.img" class="img-fluid" :src="keep.img" alt="">
             <p>{{keep.description}}</p>
             <a v-if="keep.contentUrl" :href="keep.contentUrl"></a>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button @click="deleteKeep(keep)" data-dismiss="modal" v-if="currentRouteName == 'home' && usrIsUsr"
+              class="bg-dark w-100 text-light btn btn-sm mt-1">Delete</button>
           </div>
         </div>
       </div>
@@ -56,13 +67,28 @@
         keepView: false
       }
     },
+    // mounted() {
+    //   console.log(this.$route.name)
+    // },
     props: ['keep'],
-    computed: {},
+    computed: {
+      user() {
+        return this.$store.state.user
+      },
+      currentRouteName() {
+        return this.$route.name
+      },
+      usrIsUsr() {
+        return this.keep.userId == this.user.id
+      }
+    },
     methods: {
       showModal(id) {
         $(`#${id}`).modal('show')
+      },
+      deleteKeep(keep) {
+        this.$store.dispatch('deleteKeep', keep.id)
       }
-
     },
     components: {}
   }

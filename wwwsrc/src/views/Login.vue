@@ -1,12 +1,6 @@
 <template>
 
   <div>
-    <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-      Login
-    </button> -->
-    <!-- <button class="btn btn-sm bg-dark text-light" @click="toggleLoginModal">Login</button> -->
-
     <!-- Modal -->
     <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel"
       aria-hidden="true">
@@ -26,14 +20,15 @@
                 <button class="btn btn-sm bg-dark text-light" type="submit" @click="toggleLoginModal">Login</button>
               </form>
               <form v-else @submit.prevent="register">
-                <input type="text" v-model="newUser.username" placeholder="name">
-                <input type="email" v-model="newUser.email" placeholder="email">
-                <input type="password" v-model="newUser.password" placeholder="password">
-                <button type="submit" @click="toggleLoginModal">Create Account</button>
+                <input class="form-control mb-1" type=" text" v-model="newUser.username" placeholder="name">
+                <input class="form-control mb-1" type=" email" v-model="newUser.email" placeholder="email">
+                <input class="form-control mb-1" type=" password" v-model="newUser.password" placeholder="password">
+                <button class="btn btn-sm bg-dark text-light" type="submit" @click="toggleLoginModal">Create
+                  Account</button>
               </form>
               <div @click="loginForm = !loginForm">
-                <p v-if="loginForm">No account Click to Register</p>
-                <p v-else>Already have an account click to Login</p>
+                <p class="pointer" v-if="loginForm">No account Click to Register</p>
+                <p class="pointer" v-else>Already have an account click to Login</p>
               </div>
             </div>
           </div>
@@ -52,7 +47,11 @@
     mounted() {
       //checks for valid session
       this.$store.dispatch("authenticate");
-      $(".modal").modal('show')
+      $(".modal").modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      })
     },
     data() {
       return {

@@ -33,4 +33,8 @@
   #nav a.router-link-exact-active {
     color: #42b983;
   }
+
+  .pointer {
+    cursor: pointer;
+  }
 </style>

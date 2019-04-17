@@ -58,6 +58,12 @@ export default new Vuex.Store({
       auth.post('register', newUser)
         .then(res => {
           commit('setUser', res.data)
+          let vaultData = {
+            name: 'General',
+            description: '',
+            userId: res.data.id
+          }
+          dispatch('makeVault', vaultData)
           router.push({
             name: 'home'
           })
@@ -157,7 +163,6 @@ export default new Vuex.Store({
       state
     }, data) {
       data.keep.userId = state.user.id
-      debugger
       api.post('keeps', data.keep).then(res => {
         dispatch('getPublicKeeps')
         dispatch('getUserKeeps')
@@ -168,6 +173,19 @@ export default new Vuex.Store({
         dispatch('makeVaultKeep', vkData)
       }).catch(err => {
         console.log('makeKeep error:' + err)
+      })
+    },
+    deleteKeep({
+      commit,
+      dispatch
+    }, id) {
+      api.delete('keeps/' + id).then(res => {
+        if (res.status != 200) {
+          console.log('Problem with keep delete')
+        }
+        dispatch('getUserKeeps')
+      }).catch(err => {
+        console.log('deleteKeep error:' + err)
       })
     },
 

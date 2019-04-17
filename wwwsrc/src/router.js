@@ -41,7 +41,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(from)
   if (to.name.toLowerCase() == 'login' || null) {
     next()
   } else {
