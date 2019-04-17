@@ -66,7 +66,7 @@
         }
         data.userId = this.$store.state.user.id
         this.$store.dispatch('makeKeep', data)
-        curKeep = {
+        this.curKeep = {
           name: '',
           description: '',
           img: '',
@@ -76,7 +76,6 @@
         }
       },
       setVault(vault) {
-        debugger
         this.vaultPick = vault
       }
     },

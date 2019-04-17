@@ -1,5 +1,5 @@
 <template>
-  <div @click="keepView = true" class="keep" data-toggle="modal" data-target="#exampleModalCenter">
+  <div @click="showModal(keep.id)" class="keep" data-toggle="modal" :data-target="'#'+keep.id">
     <div class="card m-1">
       <img class="card-img-top" :src="keep.img" alt="Card image cap">
       <div class="card-body">
@@ -16,18 +16,20 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="keep.id + 'Title'"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+            <h5 class="modal-title" id="keep.id + 'Title'">{{keep.name}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            ...
+            <img class="img-fluid" :src="keep.img" alt="">
+            <p>{{keep.description}}</p>
+            <a v-if="keep.contentUrl" :href="keep.contentUrl"></a>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -57,8 +59,8 @@
     props: ['keep'],
     computed: {},
     methods: {
-      closeModal() {
-
+      showModal(id) {
+        $(`#${id}`).modal('show')
       }
 
     },
@@ -68,5 +70,5 @@
 
 
 <style scoped>
-  }
+
 </style>

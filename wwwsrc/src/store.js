@@ -153,9 +153,12 @@ export default new Vuex.Store({
     },
     makeKeep({
       commit,
-      dispatch
+      dispatch,
+      state
     }, data) {
-      api.post('keeps', data.curKeep).then(res => {
+      data.keep.userId = state.user.id
+      debugger
+      api.post('keeps', data.keep).then(res => {
         dispatch('getPublicKeeps')
         dispatch('getUserKeeps')
         let vkData = {
