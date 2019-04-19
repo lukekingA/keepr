@@ -15,7 +15,7 @@
     </div>
     <div v-else class="row mt-3">
       <div v-for="vault in userVaults" class="col col-sm-4">
-        <vault :vault="vault" :user="user" :currentRouteName="currentRouteName"></vault>
+        <vault :vault="vault" :user="user" :currentRouteName="currentRouteName" :userVaults="userVaults"></vault>
       </div>
     </div>
 

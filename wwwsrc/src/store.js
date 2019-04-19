@@ -206,8 +206,8 @@ export default new Vuex.Store({
       state
     }) {
       auth.get('authenticate').then(res => {
-        api.get('vault/' + res.data.id).then(responce => {
-          commit('setUserVaults', responce.data)
+        api.get('vault/' + res.data.id).then(response => {
+          commit('setUserVaults', response.data)
         }).catch(err => {
           console.log('getUserVaults error:' + err)
         })

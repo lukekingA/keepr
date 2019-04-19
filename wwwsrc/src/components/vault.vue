@@ -12,12 +12,13 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="row">
-            <div class="col col-sm-6" v-for="keep in curKeeps">
-              <keep :keep="keep" :user="user" :currentRouteName="currentRouteName"></keep>
+            <div class="col col-sm-6" v-for="(keep, index) in curKeeps" :key="index">
+              <keep :keep="keep" :user="user" :currentRouteName="currentRouteName" :userVaults="userVaults"></keep>
+              <button v-if="generalVault" class="bg-dark text-light btn btn-sm m-1 shadow-sm">Remove From
+                Vault</button>
             </div>
           </div>
-          <button @click="deleteVault(vault)" data-dismiss="modal"
-            v-if="currentRouteName == 'home' && usrIsUsr && vault.name.toLowerCase() != 'general'"
+          <button @click="deleteVault(vault)" data-dismiss="modal" v-show="generalVault"
             class="bg-dark text-light btn btn-sm m-1">Delete Vault</button>
         </div>
       </div>
@@ -35,9 +36,9 @@
         modalOpen: false
       }
     },
-    props: ['vault', 'user', 'currentRouteName'],
+    props: ['vault', 'user', 'currentRouteName', 'userVaults'],
     mounted() {
-
+      console.log(this.user, this.vault, this.currentRouteName, this.usrIsUsr)
     },
     computed: {
       curKeeps() {
@@ -45,6 +46,10 @@
       },
       usrIsUsr() {
         return this.vault.userId == this.user.id
+      },
+      generalVault() {
+        console.log(this.vault.name == 'General')
+        return !(this.vault.name == 'General')
       }
     },
     methods: {
