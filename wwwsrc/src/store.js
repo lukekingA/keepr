@@ -175,6 +175,7 @@ export default new Vuex.Store({
         console.log('makeKeep error:' + err)
       })
     },
+
     editKeep({
       commit,
       dispatch
@@ -248,20 +249,34 @@ export default new Vuex.Store({
 
     makeVaultKeep({
       commit,
-      dispatch
+      dispatch,
+      state
     }, data) {
       auth.get('authenticate').then(res => {
-        data.userId = res.data.id
-        api.post('vaultkeep', data).then(response => {
-          if (response.data >= 0) {
-            console.log(response)
-          }
-        }).catch(err => {
-          console.log('makeVaultKeep error:' + err)
-        })
+        let gkvData = {
+          vaultId: data.vaultId,
+          user: state.user.id
+        }
+        dispatch('getKeepsByVault', gkvData)
+        let vkIds = state.curKeepsByVault.map(v => v.id)
+        if (!vkIds.includes(data.keepId)) {
+
+          data.userId = res.data.id
+          api.post('vaultkeep', data).then(response => {
+            if (response.data >= 0) {
+              console.log(response)
+            }
+          }).catch(err => {
+            console.log('makeVaultKeep error:' + err)
+          })
+        } else {
+          console.log('Keep already in vault')
+          return
+        }
 
       })
     },
+
     getKeepsByVault({
       commit,
       dispatch

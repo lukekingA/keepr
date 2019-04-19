@@ -1,6 +1,6 @@
 <template>
   <div class="vault">
-    <div @click="getKeeps;showModal('#' + vault.id)" class="border rounded shadow p-1">
+    <div @click="getKeeps" class="border rounded shadow p-1">
       <div class="p-1 border border-secondary rounded">
         <h3>{{vault.name}}</h3>
         <p>{{vault.description}}</p>
@@ -12,7 +12,7 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="row">
-            <div class="col col-sm-6" v-for="(keep, index) in curKeeps" :key="index">
+            <div class="col col-sm-6" v-for="(keep) in curKeeps">
               <keep :keep="keep" :user="user" :currentRouteName="currentRouteName" :userVaults="userVaults"></keep>
               <button v-if="generalVault" class="bg-dark text-light btn btn-sm m-1 shadow-sm">Remove From
                 Vault</button>
@@ -38,9 +38,7 @@
       }
     },
     props: ['vault', 'user', 'currentRouteName', 'userVaults'],
-    mounted() {
-      console.log(this.user, this.vault, this.currentRouteName, this.usrIsUsr)
-    },
+    mounted() {},
     computed: {
       curKeeps() {
         return this.$store.state.curKeepsByVault
@@ -66,7 +64,7 @@
           user: this.$store.state.user.id
         }
         this.$store.dispatch('getKeepsByVault', data)
-        this.modalOpen = true
+        this.showModal('#' + this.vault.id)
       },
       deleteVault(vault) {
         this.$store.dispatch('deleteVault', vault)

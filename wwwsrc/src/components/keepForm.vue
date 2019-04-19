@@ -73,19 +73,22 @@
     mounted() {},
     computed: {
       generalVault() {
-        vaults.filter(v => v.name.toLowerCase() == 'general')
+        return this.vaults.filter(v => v.name.toLowerCase() == 'general')[0]
+        debugger
       }
     },
     methods: {
       makeKeep() {
-        if (!this.vaultPick.id) {
-          $('.errorModal').modal('show')
-          return
-        }
+        // if (!this.vaultPick.id) {
+        //   $('.errorModal').modal('show')
+        //   return
+        // }
+        let vaultId = this.vaultPick.id || this.generalVault.id
         let data = {
           keep: this.curKeep,
-          vaultId: this.vaultPick.id || this.generalVault.id
+          vaultId: vaultId
         }
+        debugger
         data.userId = this.$store.state.user.id
         this.$store.dispatch('makeKeep', data)
         this.curKeep = {
