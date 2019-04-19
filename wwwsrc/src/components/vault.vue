@@ -1,13 +1,13 @@
 <template>
   <div class="vault">
-    <div @click="getKeeps" class="border rounded shadow p-1" data-toggle="modal" data-target=".vault-keep-modal">
+    <div @click="getKeeps;showModal('#' + vault.id)" class="border rounded shadow p-1">
       <div class="p-1 border border-secondary rounded">
         <h3>{{vault.name}}</h3>
         <p>{{vault.description}}</p>
       </div>
     </div>
     <!-- <vault-keeps v-if="modalOpen" :modalOpen="modalOpen"></vault-keeps> -->
-    <div class="modal fade vault-keep-modal" tabindex="-1" role="dialog" aria-labelledby="vaultKeepsModal"
+    <div class="modal fade" :id="vault.id" tabindex="-1" role="dialog" aria-labelledby="vaultKeepsModal"
       aria-hidden="true">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -18,8 +18,8 @@
                 Vault</button>
             </div>
           </div>
-          <button @click="deleteVault(vault)" data-dismiss="modal" v-show="generalVault"
-            class="bg-dark text-light btn btn-sm m-1">Delete Vault</button>
+          <button @click="deleteVault(vault)" v-show="generalVault" class="bg-dark text-light btn btn-sm m-1">Delete
+            Vault</button>
         </div>
       </div>
     </div>
@@ -29,6 +29,7 @@
 
 <script>
   import Keep from '@/components/keep.vue'
+  import $ from 'jquery'
   export default {
     name: 'vault',
     data() {
@@ -53,6 +54,12 @@
       }
     },
     methods: {
+      showModal(id) {
+        $(id).modal('show')
+      },
+      hideModal(id) {
+        $(id).modal('hide')
+      },
       getKeeps() {
         let data = {
           vaultId: this.vault.id,
