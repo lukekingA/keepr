@@ -21,7 +21,7 @@
               Vaults
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li v-for="vault in vaults" class="pl-1 border-top" @click="setVault(vault)">{{vault.name}}</li>
+              <li v-for="vault in vaults" class="pl-1 border-top pointer" @click="setVault(vault)">{{vault.name}}</li>
             </ul>
           </div>
           <button @click="makeKeep" class="btn btn-sm bg-dark text-light">Make Keep</button>

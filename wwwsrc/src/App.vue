@@ -37,4 +37,8 @@
   .pointer {
     cursor: pointer;
   }
+
+  ul li a {
+    cursor: pointer;
+  }
 </style>

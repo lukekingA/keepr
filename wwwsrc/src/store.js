@@ -163,6 +163,7 @@ export default new Vuex.Store({
       state
     }, data) {
       data.keep.userId = state.user.id
+      debugger
       api.post('keeps', data.keep).then(res => {
         dispatch('getPublicKeeps')
         dispatch('getUserKeeps')
