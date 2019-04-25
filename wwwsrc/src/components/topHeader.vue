@@ -5,6 +5,7 @@
         <h1 class="mr-3 header-font font-weight-bold">Keepr</h1>
         <h6><small class="font-weight-bold">ALL YOUR FAVORITE CONTENT IN ONE SPOT</small></h6>
       </div>
+      <slot></slot>
       <button v-if="currentUrl != 'front'" @click="goFront" class="btn btn-sm my-2 bg-dark text-light">All
         Keeps</button>
       <button v-if="currentUrl == 'front' && user.id" @click="goHome" class="btn btn-sm my-2 bg-dark text-light">My

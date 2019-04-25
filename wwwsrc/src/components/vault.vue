@@ -7,7 +7,7 @@
       </div>
     </div>
     <!-- <vault-keeps v-if="modalOpen" :modalOpen="modalOpen"></vault-keeps> -->
-    <div class="modal fade" :id="vault.id" tabindex="-1" role="dialog" aria-labelledby="vaultKeepsModal"
+    <!-- <div class="modal fade" :id="vault.id" tabindex="-1" role="dialog" aria-labelledby="vaultKeepsModal"
       aria-hidden="true">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -22,7 +22,7 @@
             Vault</button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -40,9 +40,9 @@
     props: ['vault', 'user', 'currentRouteName', 'userVaults'],
     mounted() {},
     computed: {
-      curKeeps() {
-        return this.$store.state.curKeepsByVault
-      },
+      // curKeeps() {
+      //   return this.$store.state.curKeepsByVault
+      // },
       usrIsUsr() {
         return this.vault.userId == this.user.id
       },
@@ -64,7 +64,15 @@
           user: this.$store.state.user.id
         }
         this.$store.dispatch('getKeepsByVault', data)
-        this.showModal('#' + this.vault.id)
+        this.$router.push({
+          name: 'vaultview',
+          params: {
+            vaultId: this.vault.id,
+            userId: this.user.id
+          }
+
+        })
+        //this.showModal('#' + this.vault.id)
       },
       deleteVault(vault) {
         this.$store.dispatch('deleteVault', vault)

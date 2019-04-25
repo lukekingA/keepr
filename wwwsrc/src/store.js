@@ -27,6 +27,7 @@ export default new Vuex.Store({
     userKeeps: [],
     vaults: [],
     curKeepsByVault: [],
+    formselect: true
   },
   mutations: {
     setUser(state, user) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     setCurKeepsByVault(state, data) {
       state.curKeepsByVault = data
     },
+    setFormSelect(state, data) {
+      state.formselect = data
+    }
   },
   actions: {
 
@@ -132,6 +136,11 @@ export default new Vuex.Store({
       commit
     }, url) {
       commit('setLastUrl', url)
+    },
+    setFormSelect({
+      commit
+    }, data) {
+      commit('setFormSelect', data)
     },
     //#region Keeps
     getPublicKeeps({

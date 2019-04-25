@@ -2,8 +2,8 @@
   <div class="home">
     <top-header></top-header>
     <div class="d-flex justify-content-around mb-2">
-      <button @click="formselect = !formselect" class="btn bg-dark text-light" :disabled="formselect">Keep</button>
-      <button @click="formselect = !formselect" class="btn bg-dark text-light" :disabled="!formselect">Vault</button>
+      <button @click="setFormSelect" class="btn bg-dark text-light" :disabled="formselect">Keep</button>
+      <button @click="setFormSelect" class="btn bg-dark text-light" :disabled="!formselect">Vault</button>
     </div>
     <keep-form v-if=" formselect" :vaults="userVaults"></keep-form>
     <vault-form v-else></vault-form>
@@ -34,7 +34,6 @@
     name: "home",
     data() {
       return {
-        formselect: true,
 
       }
     },
@@ -58,10 +57,14 @@
       currentRouteName() {
         return this.$route.name
       },
-
+      formselect() {
+        return this.$store.state.formselect
+      }
     },
     methods: {
-
+      setFormSelect() {
+        this.$store.dispatch('setFormSelect', !this.formselect)
+      }
     },
     components: {
       TopHeader,
