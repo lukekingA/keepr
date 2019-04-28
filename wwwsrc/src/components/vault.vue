@@ -1,9 +1,11 @@
 <template>
   <div class="vault">
-    <div @click="getKeeps" class="border rounded shadow p-1">
+    <div class="border rounded shadow p-1">
       <div class="p-1 border border-secondary rounded">
-        <h3>{{vault.name}}</h3>
+        <h3 class="pointer" @click="getKeeps">{{vault.name}}</h3>
         <p>{{vault.description}}</p>
+        <button @click="deleteVault(vault)" v-show="generalVault" class="bg-dark text-light btn btn-sm m-1">Delete
+          Vault</button>
       </div>
     </div>
     <!-- <vault-keeps v-if="modalOpen" :modalOpen="modalOpen"></vault-keeps> -->
@@ -18,8 +20,7 @@
                 Vault</button>
             </div>
           </div>
-          <button @click="deleteVault(vault)" v-show="generalVault" class="bg-dark text-light btn btn-sm m-1">Delete
-            Vault</button>
+          
         </div>
       </div>
     </div> -->
@@ -47,17 +48,16 @@
         return this.vault.userId == this.user.id
       },
       generalVault() {
-        console.log(this.vault.name == 'General')
         return !(this.vault.name == 'General')
       }
     },
     methods: {
-      showModal(id) {
-        $(id).modal('show')
-      },
-      hideModal(id) {
-        $(id).modal('hide')
-      },
+      // showModal(id) {
+      //   $(id).modal('show')
+      // },
+      // hideModal(id) {
+      //   $(id).modal('hide')
+      // },
       getKeeps() {
         let data = {
           vaultId: this.vault.id,

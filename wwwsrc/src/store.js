@@ -172,7 +172,6 @@ export default new Vuex.Store({
       state
     }, data) {
       data.keep.userId = state.user.id
-      debugger
       api.post('keeps', data.keep).then(res => {
         dispatch('getPublicKeeps')
         dispatch('getUserKeeps')
@@ -202,10 +201,11 @@ export default new Vuex.Store({
         if (res.status != 200) {
           console.log('Problem with keep delete')
         }
-        dispatch('getUserKeeps')
+        //dispatch('getUserKeeps')
       }).catch(err => {
         console.log('deleteKeep error:' + err)
       })
+      dispatch('getUserKeeps')
     },
 
     //#endregion
@@ -263,26 +263,28 @@ export default new Vuex.Store({
       state
     }, data) {
       auth.get('authenticate').then(res => {
-        let gkvData = {
-          vaultId: data.vaultId,
-          user: state.user.id
-        }
-        dispatch('getKeepsByVault', gkvData)
-        let vkIds = state.curKeepsByVault.map(v => v.id)
-        if (!vkIds.includes(data.keepId)) {
+        // let gkvData = {
+        //   vaultId: data.vaultId,
+        //   user: state.user.id
+        // }
+        api.get('vaultkeep/vault/' + data.vaultId + '/usr/' + res.data.id).then(response => {
+          let vkIds = response.data.map(v => v.id)
+          if (!vkIds.includes(data.keepId)) {
+            data.userId = res.data.id
+            api.post('vaultkeep', data).then(response => {
+              if (response.data >= 0) {
+                console.log(response)
+              }
+            }).catch(err => {
+              console.log('makeVaultKeep error:' + err)
+            })
+          } else {
+            console.log('Keep already in vault')
+            return
+          }
+        })
+        //dispatch('getKeepsByVault', gkvData)
 
-          data.userId = res.data.id
-          api.post('vaultkeep', data).then(response => {
-            if (response.data >= 0) {
-              console.log(response)
-            }
-          }).catch(err => {
-            console.log('makeVaultKeep error:' + err)
-          })
-        } else {
-          console.log('Keep already in vault')
-          return
-        }
 
       })
     },
@@ -297,5 +299,27 @@ export default new Vuex.Store({
         console.log('getKeepsByVault error:' + err)
       })
     },
+
+    removeVaultKeep({
+      commit,
+      dispatch
+    }, data) {
+      debugger
+      api.delete('vaultkeep/vault/' + data.vaultId + '/keep/' + data.keepId).then(res => {
+        if (res.data >= 0) {
+          let mVKData = {
+            vaultId: data.generalVaultId,
+            keepId: data.keepId,
+            userId: data.userId
+          }
+          dispatch('makeVaultKeep', mVKData)
+        }
+        let kByVData = {
+          vaultId: data.vaultId,
+          user: data.userId
+        }
+        dispatch('getKeepsByVault', kByVData)
+      })
+    }
   }
 })

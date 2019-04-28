@@ -44,7 +44,7 @@
                   <span>{{keep.keeps}}</span>
                 </div>
               </div>
-              <button @click="deleteKeep(keep);hideModal('#' + keep.id);" v-if="currentRouteName == 'home' && usrIsUsr"
+              <button @click="deleteKeep(keep);hideModal('#' + keep.id);" v-if="currentRouteName != 'front' && usrIsUsr"
                 class="bg-dark w-100 text-light btn btn-sm mt-1">Delete</button>
             </div>
           </div>
@@ -116,7 +116,7 @@
       showModal(id) {
         $(`#${id}`).modal('show')
       },
-      hideModal(id){
+      hideModal(id) {
         $(id).modal('hide')
       },
       deleteKeep(keep) {

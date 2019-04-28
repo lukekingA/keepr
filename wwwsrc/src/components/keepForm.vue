@@ -88,7 +88,7 @@
           keep: this.curKeep,
           vaultId: vaultId
         }
-        debugger
+
         data.userId = this.$store.state.user.id
         this.$store.dispatch('makeKeep', data)
         this.curKeep = {
