@@ -27,7 +27,10 @@ export default new Vuex.Store({
     userKeeps: [],
     vaults: [],
     curKeepsByVault: [],
-    formselect: true
+    formselect: true,
+    loginValid: true,
+    registrationValid: true
+
   },
   mutations: {
     setUser(state, user) {
@@ -50,7 +53,14 @@ export default new Vuex.Store({
     },
     setFormSelect(state, data) {
       state.formselect = data
+    },
+    setLoginValid(state, bool) {
+      state.loginValid = bool
+    },
+    setRegistraionValid(state, bool) {
+      state.registrationValid = bool
     }
+
   },
   actions: {
 
@@ -67,12 +77,14 @@ export default new Vuex.Store({
             description: 'uncatagorized keeps go here',
             userId: res.data.id
           }
+          commit('setRegistraionValid', true)
           dispatch('makeVault', vaultData)
           router.push({
             name: 'home'
           })
         })
         .catch(e => {
+          commit('setRegistraionValid', false)
           console.log('[registration failed] :', e)
         })
     },
@@ -82,6 +94,7 @@ export default new Vuex.Store({
     }) {
       auth.get('authenticate')
         .then(res => {
+          commit('setLoginValid', true)
           commit('setUser', res.data)
           if (!state.user.id) {
             router.push({
@@ -90,6 +103,7 @@ export default new Vuex.Store({
           }
         })
         .catch(e => {
+
           console.log('not authenticated')
         })
     },
@@ -100,6 +114,7 @@ export default new Vuex.Store({
     }, creds) {
       auth.post('login', creds)
         .then(res => {
+          commit('setLoginValid', true)
           commit('setUser', res.data)
           if (state.lastUrl) {
             router.push({
@@ -112,6 +127,7 @@ export default new Vuex.Store({
           }
         })
         .catch(e => {
+          commit('setLoginValid', false)
           console.log('Login Failed')
           router.push({
             name: 'login'
@@ -144,6 +160,16 @@ export default new Vuex.Store({
       commit
     }, data) {
       commit('setFormSelect', data)
+    },
+    setRegistraionValid({
+      commit
+    }, bool) {
+      commit('setRegistraionValid', bool)
+    },
+    setLoginValid({
+      commit
+    }, bool) {
+      commit('setLoginValid', bool)
     },
     //#region Keeps
     getPublicKeeps({

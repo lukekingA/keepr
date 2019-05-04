@@ -10,8 +10,8 @@
     <div class=" login row">
       <div class="col col-sm-4 offset-sm-4">
         <h5 class="modal-title" id="exampleModalCenteredLabel">Register or Login Here</h5>
-        <h5 v-if="loginFailed" class="text-danger"> Login Failed. Username or Password Incorrect</h5>
-        <h5 v-if="registrationFailed" class="text-danger">Registration Failed. Please Try Again</h5>
+        <h5 v-if="!loginFailed" class="text-danger"> Login Failed. Username or Password Incorrect</h5>
+        <h5 v-if="!registrationFailed" class="text-danger">Registration Failed. Please Try Again</h5>
         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button> -->
@@ -65,10 +65,16 @@
           password: "",
           username: ""
         },
-        loginFailed: false,
-        registrationFailed: false,
         showModal: false,
       };
+    },
+    computed: {
+      loginFailed() {
+        return this.$store.state.loginValid
+      },
+      registrationFailed() {
+        return this.$store.state.registrationValid
+      }
     },
     methods: {
       register() {
