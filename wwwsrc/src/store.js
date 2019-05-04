@@ -113,6 +113,9 @@ export default new Vuex.Store({
         })
         .catch(e => {
           console.log('Login Failed')
+          router.push({
+            name: 'login'
+          })
         })
     },
     logout({
